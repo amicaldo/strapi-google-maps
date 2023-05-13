@@ -1,6 +1,6 @@
 import { Strapi } from '@strapi/strapi';
 import { sanitizeConfigInput } from '../content-types/config';
-import { Config } from '../../custom';
+import { Config } from '../../types';
 
 export default ({ strapi }: { strapi: Strapi }) => ({
   async index(ctx: any) {

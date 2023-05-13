@@ -1,5 +1,5 @@
 import utils from '@strapi/utils';
-import { Config } from '../../custom';
+import { Config } from '../../types';
 
 const { sanitize } = utils;
 const { contentAPI } = sanitize;

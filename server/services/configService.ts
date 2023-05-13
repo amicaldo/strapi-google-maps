@@ -1,5 +1,5 @@
 import { Strapi } from '@strapi/strapi';
-import { Config } from '../../custom';
+import { Config } from '../../types';
 
 const uid = 'plugin::google-maps.config';
 const fields = ['googleMapsKey'];
