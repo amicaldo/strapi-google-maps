@@ -1,5 +1,17 @@
 import { Strapi } from '@strapi/strapi';
 
-export default ({ strapi }: { strapi: Strapi }) => {
-  // bootstrap phase
+const accessActions = [
+  {
+    section: 'plugins',
+    displayName: 'View / Edit Configuration',
+    uid: 'config',
+    pluginName: 'google-maps',
+  },
+];
+
+export default async ({ strapi }: { strapi: Strapi }) => {
+  // @ts-ignore
+  await strapi.admin.services.permission.actionProvider.registerMany(
+    accessActions
+  );
 };
