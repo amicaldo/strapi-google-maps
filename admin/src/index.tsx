@@ -1,5 +1,4 @@
 import { prefixPluginTranslations } from '@strapi/helper-plugin';
-
 import pluginPkg from '../../package.json';
 import pluginId from './pluginId';
 import Initializer from './components/Initializer';
@@ -9,26 +8,37 @@ const name = pluginPkg.strapi.name;
 
 export default {
   register(app: any) {
-    app.addMenuLink({
-      to: `/plugins/${pluginId}`,
-      icon: PluginIcon,
-      intlLabel: {
-        id: `${pluginId}.plugin.name`,
-        defaultMessage: name,
-      },
-      Component: async () => {
-        const component = await import(/* webpackChunkName: "[request]" */ './pages/App');
+    app.createSettingSection(
+      {
+        id: pluginId,
+        intlLabel: {
+          id: `${pluginId}.plugin.name`,
+          defaultMessage: 'Google Maps',
+        },
+      }, // Section to create
+      [
+        // links
+        {
+          intlLabel: {
+            id: `${pluginId}.plugin.name`,
+            defaultMessage: 'Configuration',
+          },
+          id: pluginId,
+          to: '/settings/google-maps',
+          Component: async () => {
+            const component = await import(
+              /* webpackChunkName: "settings-page" */ './pages/Settings'
+            );
 
-        return component;
-      },
-      permissions: [
-        // Uncomment to set the permissions of the plugin here
-        // {
-        //   action: '', // the action name should be plugin::plugin-name.actionType
-        //   subject: null,
-        // },
-      ],
-    });
+            return component;
+          },
+          permissions: [
+            { action: 'plugin::google-maps.config', subject: null },
+          ],
+        },
+      ]
+    );
+
     const plugin = {
       id: pluginId,
       initializer: Initializer,

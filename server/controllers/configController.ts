@@ -4,15 +4,26 @@ import { Config } from '../../types';
 
 export default ({ strapi }: { strapi: Strapi }) => ({
   async index(ctx: any) {
-    ctx.body = await strapi.plugin('google-maps').service('config').retrieve();
+    const config: Config = await strapi
+      .plugin('google-maps')
+      .service('config')
+      .retrieve();
+
+    ctx.body = {
+      data: config,
+    };
   },
 
   async update(ctx: any) {
     const data: Config = await sanitizeConfigInput(ctx.request.body, ctx);
 
-    ctx.body = await strapi
+    const config: Config = await strapi
       .plugin('google-maps')
       .service('config')
       .update(data);
+
+    ctx.body = {
+      data: config,
+    };
   },
 });
