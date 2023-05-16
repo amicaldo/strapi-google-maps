@@ -8,11 +8,14 @@
     "kind": "plugin"
   },
   "dependencies": {
+    "@react-google-maps/api": "^2.18.1",
     "@strapi/design-system": "^1.6.3",
     "@strapi/helper-plugin": "^4.6.0",
     "@strapi/icons": "^1.6.3",
     "axios": "^1.4.0",
-    "prop-types": "^15.7.2"
+    "latlon-geohash": "^2.0.0",
+    "prop-types": "^15.7.2",
+    "react-geolocated": "^4.1.0"
   },
   "devDependencies": {
     "@strapi/typescript-utils": "^4.6.0",

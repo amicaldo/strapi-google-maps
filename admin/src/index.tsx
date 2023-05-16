@@ -39,6 +39,68 @@ export default {
       ]
     );
 
+    app.customFields.register({
+      name: 'Google-Maps',
+      pluginId: 'google-maps',
+      type: 'json',
+      intlLabel: {
+        id: 'google-maps.input.label',
+        defaultMessage: name,
+      },
+      intlDescription: {
+        id: 'google-maps.input.description',
+        defaultMessage: 'Pick your location',
+      },
+      icon: PluginIcon,
+      components: {
+        Input: async () =>
+          import(
+            /* webpackChunkName: "input-component" */ './components/Input'
+          ),
+      },
+      options: {
+        advanced: [
+          {
+            name: 'optionsDefaultLat',
+            type: 'string',
+            intlLabel: {
+              id: 'google-maps.attribute.item.defaultLat',
+              defaultMessage: 'Default latitude',
+            },
+          },
+          {
+            name: 'optionsDefaultLng',
+            type: 'string',
+            intlLabel: {
+              id: 'google-maps.attribute.item.defaultLng',
+              defaultMessage: 'Default longitude',
+            },
+          },
+          {
+            sectionTitle: {
+              id: 'global.settings',
+              defaultMessage: 'Settings',
+            },
+            items: [
+              {
+                name: 'required',
+                type: 'checkbox',
+                intlLabel: {
+                  id: 'form.attribute.item.requiredField',
+                  defaultMessage: 'Required field',
+                },
+                description: {
+                  id: 'form.attribute.item.requiredField.description',
+                  defaultMessage:
+                    "You won't be able to create an entry if this field is empty",
+                },
+              },
+            ],
+          },
+        ],
+      },
+    });
+
     const plugin = {
       id: pluginId,
       initializer: Initializer,

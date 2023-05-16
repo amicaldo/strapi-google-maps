@@ -14,8 +14,7 @@ import {
   GridItem,
 } from '@strapi/design-system';
 import { Check } from '@strapi/icons';
-import axios from '../../utils/axios';
-import { AxiosResponse } from 'axios';
+import { getConfig, updateConfig } from '../../utils/axios';
 import { AnErrorOccurred, useNotification } from '@strapi/helper-plugin';
 import { Config } from '../../../../types';
 
@@ -33,9 +32,8 @@ const Settings = () => {
 
   /* Fetch plugin config using axios instance */
   useEffect(() => {
-    axios
-      .get(`/config`)
-      .then((response: AxiosResponse) => {
+    getConfig()
+      .then((response) => {
         setIsLoading(false);
 
         const { data: config }: { data: Config } = response.data;
@@ -55,9 +53,7 @@ const Settings = () => {
     setIsLoading(true);
 
     try {
-      await axios.put(`/config`, {
-        data,
-      });
+      await updateConfig(data);
 
       setMadeChanges(false);
 
