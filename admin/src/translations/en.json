@@ -1,1 +1,5 @@
-{}
+{
+  "input.search.placeholder": "Search for a place",
+  "input.error.required": "You must pick a location",
+  "input.button.reset": "Reset"
+}
