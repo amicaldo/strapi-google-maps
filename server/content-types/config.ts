@@ -4,7 +4,7 @@ import { Config } from '../../types';
 const { sanitize } = utils;
 const { contentAPI } = sanitize;
 
-export default {
+const schema = {
   kind: 'singleType',
   collectionName: 'google_maps_configs',
   info: {
@@ -33,6 +33,8 @@ export default {
   },
 };
 
+export default schema;
+
 export function sanitizeConfigInput(data: object, ctx: any): Promise<Config> {
-  return contentAPI.input(data, this, ctx.state.auth);
+  return contentAPI.input(data, schema, ctx.state.auth);
 }

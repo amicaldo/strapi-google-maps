@@ -2,6 +2,11 @@
   "name": "google-maps",
   "version": "0.0.0",
   "description": "A Google Maps custom field for Strapi, allowing you to pick a location.",
+  "main": "./dist",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amicaldo/strapi-google-maps.git"
+  },
   "strapi": {
     "name": "Google Maps",
     "description": "A Google Maps custom field allowing you to pick a location.",
@@ -48,8 +53,8 @@
     "npm": ">=6.0.0"
   },
   "scripts": {
-    "develop": "tsc -p tsconfig.server.json -w",
-    "build": "tsc -p tsconfig.server.json"
+    "develop": "tsc -w",
+    "build": "tsc"
   },
   "license": "MIT"
 }
