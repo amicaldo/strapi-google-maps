@@ -125,4 +125,10 @@ export default [
 ];
 ```
 
+Lastly, recompile the admin panel of your Strapi project.
+
+```bash
+npm run build
+```
+
 After starting your Strapi project, you'll be able to use the **Google Maps** custom field.
