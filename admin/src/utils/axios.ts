@@ -4,7 +4,7 @@ import { auth } from '@strapi/helper-plugin';
 import { Config } from '../../../types';
 
 const instance: AxiosInstance = axios.create({
-  baseURL: `http://localhost:1337/${pluginId}`,
+  baseURL: `${process.env.STRAPI_ADMIN_BACKEND_URL}/${pluginId}`,
   headers: {
     Authorization: `Bearer ${auth.getToken()}`,
     'Content-Type': 'application/json',
