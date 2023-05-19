@@ -116,6 +116,7 @@ export default [
             "khms2.googleapis.com",
             "khms3.google.com",
             "khms3.googleapis.com",
+            "streetviewpixels-pa.googleapis.com",
           ],
         },
       },
