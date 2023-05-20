@@ -1,16 +1,20 @@
 {
-  "name": "google-maps",
-  "version": "0.0.0",
+  "name": "strapi-google-maps",
+  "version": "1.0.0",
   "description": "A Google Maps custom field for Strapi, allowing you to pick a location.",
-  "main": "./dist",
   "repository": {
     "type": "git",
     "url": "https://github.com/amicaldo/strapi-google-maps.git"
   },
+  "bugs": {
+    "url": "https://github.com/amicaldo/strapi-google-maps/issues"
+  },
+  "homepage": "https://github.com/amicaldo/strapi-google-maps",
   "strapi": {
-    "name": "Google Maps",
+    "name": "google-maps",
     "description": "A Google Maps custom field allowing you to pick a location.",
-    "kind": "plugin"
+    "kind": "plugin",
+    "displayName": "Google Maps"
   },
   "dependencies": {
     "@react-google-maps/api": "^2.18.1",
@@ -35,6 +39,7 @@
     "typescript": "5.0.4"
   },
   "peerDependencies": {
+    "@strapi/strapi": "4.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^5.3.4",
@@ -53,8 +58,19 @@
     "npm": ">=6.0.0"
   },
   "scripts": {
-    "develop": "tsc -w",
-    "build": "tsc"
+    "develop": "tsc -p tsconfig.server.json -w",
+    "build": "tsc -p tsconfig.server.json"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "files": [
+    "admin",
+    "dist/server",
+    "deps.d.ts",
+    "package.json",
+    "README.md",
+    "strapi-admin.js",
+    "strapi-server.js",
+    "tsconfig.json",
+    "types.d.ts"
+  ]
 }
