@@ -25,7 +25,7 @@ export default {
             defaultMessage: 'Configuration',
           },
           id: pluginId,
-          to: `settings/${pluginId}`,
+          to: `/settings/${pluginId}`,
           Component: async () => {
             const component = await import(
               /* webpackChunkName: "settings-page" */ './pages/Settings'
