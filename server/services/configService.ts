@@ -9,18 +9,16 @@ export default ({ strapi }: { strapi: Strapi }) => ({
     let config: Config | null;
 
     /* Find existing config */
-    config = await strapi.entityService.findMany(uid, {
+    config = (await strapi.entityService.findMany(uid as never, {
       fields,
-    });
+    })) as unknown as Config;
 
     /* Create config if not found */
     if (!config) {
-      config = (await strapi.entityService.create(uid, {
+      config = (await strapi.entityService.create(uid as never, {
         fields,
         data: {},
       })) as Config;
-
-      console.log(config);
     }
 
     return config;
@@ -31,7 +29,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
     let config: Config = await this.retrieve();
 
     /* Update config */
-    config = await strapi.entityService.update(uid, config.id, {
+    config = await strapi.entityService.update(uid as never, config.id, {
       ...data,
       fields,
     });
