@@ -3,8 +3,9 @@ import pluginPkg from '../../package.json';
 import pluginId from './pluginId';
 import Initializer from './components/Initializer';
 import PluginIcon from './components/PluginIcon';
+import getTrad from './utils/getTrad';
 
-const name = pluginPkg.strapi.name;
+const name = pluginPkg.strapi.displayName;
 
 export default {
   register(app: any) {
@@ -12,19 +13,19 @@ export default {
       {
         id: pluginId,
         intlLabel: {
-          id: `${pluginId}.plugin.name`,
-          defaultMessage: 'Google Maps',
+          id: getTrad('settings.section-label'),
+          defaultMessage: name,
         },
       }, // Section to create
       [
         // links
         {
           intlLabel: {
-            id: `${pluginId}.plugin.name`,
+            id: getTrad('settings.link-label'),
             defaultMessage: 'Configuration',
           },
           id: pluginId,
-          to: '/settings/google-maps',
+          to: `settings/${pluginId}`,
           Component: async () => {
             const component = await import(
               /* webpackChunkName: "settings-page" */ './pages/Settings'
@@ -33,22 +34,22 @@ export default {
             return component;
           },
           permissions: [
-            { action: 'plugin::google-maps.config', subject: null },
+            { action: `plugin::${pluginId}.config`, subject: null },
           ],
         },
       ]
     );
 
     app.customFields.register({
-      name: 'Google-Maps',
-      pluginId: 'google-maps',
+      name: 'location-picker',
+      pluginId,
       type: 'json',
       intlLabel: {
-        id: 'google-maps.input.label',
+        id: getTrad('input.label'),
         defaultMessage: name,
       },
       intlDescription: {
-        id: 'google-maps.input.description',
+        id: getTrad('input.description'),
         defaultMessage: 'Pick your location',
       },
       icon: PluginIcon,
@@ -64,7 +65,7 @@ export default {
             name: 'optionsDefaultLat',
             type: 'string',
             intlLabel: {
-              id: 'google-maps.attribute.item.defaultLat',
+              id: getTrad('attribute.item.defaultLat'),
               defaultMessage: 'Default latitude',
             },
           },
@@ -72,7 +73,7 @@ export default {
             name: 'optionsDefaultLng',
             type: 'string',
             intlLabel: {
-              id: 'google-maps.attribute.item.defaultLng',
+              id: getTrad('attribute.item.defaultLng'),
               defaultMessage: 'Default longitude',
             },
           },
