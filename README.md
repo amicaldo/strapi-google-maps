@@ -122,6 +122,7 @@ export default [
             'khms3.google.com',
             'khms3.googleapis.com',
             'streetviewpixels-pa.googleapis.com',
+            'market-assets.strapi.io'
           ],
         },
       },
