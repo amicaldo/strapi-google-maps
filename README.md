@@ -1,10 +1,10 @@
-# Strapi Google Maps
+# 🚀🗺️ Strapi Google Maps
 
 ![Preview](https://github.com/amicaldo/strapi-google-maps/blob/main/pictures/preview.png?raw=true)
 
 A Strapi plugin allowing you to implement a Google Maps custom field into your content-types, which can be used to pick and retrieve locations.
 
-## Usage
+## ✨ Usage
 
 The API response of a Strapi content-type implementing this google-maps custom field could look as follows:
 
@@ -30,40 +30,24 @@ You can configure this plugin inside your Strapi dashboard's settings tab (e.g. 
 
 ![Configuration](https://github.com/amicaldo/strapi-google-maps/blob/main/pictures/configuration.png?raw=true)
 
-## Installation
+## ❗ Requirements
 
-NPM package is to be published...
+- Strapi v4
+- To use the plugin without restrictions, you should consider getting an API key for the Google Maps Platform, with additional access to the Places API.
 
-## Manual Installation (not recommended)
+## 🔧 Installation
 
-Navigate into your Strapi's plugins folder and clone this repository.
-Then navigate into this plugin's directory.
-
-```bash
-cd ./src/plugins
-git clone https://github.com/amicaldo/strapi-google-maps.git
-cd ./strapi-google-maps
-```
-
-Install the dependencies using npm and compile the server side part.
+You just need to install the `strapi-google-maps` package via npm, at the root of your strapi project.
 
 ```bash
-npm install
-npm run build
+npm i @amicaldo/strapi-google-maps
 ```
 
-From your project's root directory, enable the plugin inside `./config/plugins.js`.
+**To make Google Maps work, you should take a look at the next section.**
 
-```js
-module.exports = {
-  // ...
-  'google-maps': {
-    enabled: true,
-    resolve: './src/plugins/strapi-google-maps',
-  },
-  // ...
-};
-```
+After restarting your Strapi app, Google Maps should be listed as one of your plugins.
+
+## 🚀 Strapi Configuration (required)
 
 Allow all Google Maps assets to be loaded correctly by customizing the **strapi::security** middleware inside `./config/middlewares.js`.
 
@@ -122,7 +106,7 @@ export default [
             'khms3.google.com',
             'khms3.googleapis.com',
             'streetviewpixels-pa.googleapis.com',
-            'market-assets.strapi.io'
+            'market-assets.strapi.io',
           ],
         },
       },
@@ -132,10 +116,41 @@ export default [
 ];
 ```
 
+## 👨‍💻 Manual Installation (not recommended)
+
+Navigate into your Strapi's plugins folder and clone this repository.
+Then navigate into this plugin's directory.
+
+```bash
+cd ./src/plugins
+git clone https://github.com/amicaldo/strapi-google-maps.git
+cd ./strapi-google-maps
+```
+
+Install the dependencies using npm and compile the server side part.
+
+```bash
+npm install
+npm run build
+```
+
+From your project's root directory, enable the plugin inside `./config/plugins.js`.
+
+```js
+module.exports = {
+  // ...
+  'google-maps': {
+    enabled: true,
+    resolve: './src/plugins/strapi-google-maps',
+  },
+  // ...
+};
+```
+
+**To make Google Maps work, you should take a look at the previous section.**
+
 Lastly, recompile the admin panel of your Strapi project.
 
 ```bash
 npm run build
 ```
-
-After starting your Strapi project, you'll be able to use the **Google Maps** custom field.
