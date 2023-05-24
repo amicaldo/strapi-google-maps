@@ -1,5 +1,5 @@
 {
-  "name": "strapi-google-maps",
+  "name": "@amicaldo/strapi-google-maps",
   "version": "1.0.0",
   "description": "A Google Maps custom field for Strapi, allowing you to pick a location.",
   "repository": {
@@ -16,6 +16,14 @@
     "kind": "plugin",
     "displayName": "Google Maps"
   },
+  "keywords": [
+    "strapi",
+    "strapi-plugin",
+    "strapi-plugin-google-maps",
+    "google-maps",
+    "strapi-google-maps",
+    "strapi-custom-field"
+  ],
   "dependencies": {
     "@react-google-maps/api": "^2.18.1",
     "@strapi/design-system": "^1.6.3",
@@ -60,6 +68,9 @@
   "scripts": {
     "develop": "tsc -p tsconfig.server.json -w",
     "build": "tsc -p tsconfig.server.json"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "license": "MIT",
   "files": [
