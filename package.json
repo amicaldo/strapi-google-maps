@@ -31,7 +31,7 @@
     "@strapi/icons": "^1.6.3",
     "axios": "^1.4.0",
     "latlon-geohash": "^2.0.0",
-    "prop-types": "^15.7.2",
+    "prop-types": "^¨15.7.2",
     "react-geolocated": "^4.1.0"
   },
   "devDependencies": {
