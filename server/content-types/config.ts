@@ -1,4 +1,4 @@
-import utils from '@strapi/utils';
+import * as utils from '@strapi/utils';
 import { Config } from '../../types';
 
 const { sanitize } = utils;
