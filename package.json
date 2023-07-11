@@ -1,6 +1,6 @@
 {
   "name": "@amicaldo/strapi-google-maps",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A Google Maps custom field for Strapi, allowing you to pick a location.",
   "repository": {
     "type": "git",
