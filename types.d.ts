@@ -14,4 +14,5 @@ export interface Coordinates {
 export interface Location {
   coordinates: Coordinates;
   geohash: string;
+  address: string;
 }

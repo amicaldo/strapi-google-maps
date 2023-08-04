@@ -103,7 +103,7 @@ const Input = ({
     );
 
     /* Searchbox input value */
-    setAddress('');
+    setAddress(parsedValue?.address || '');
   };
 
   /* Center the map at userCords, in the right situation */
@@ -151,6 +151,7 @@ const Input = ({
     const location: Location = {
       coordinates: cords,
       geohash,
+      address,
     };
 
     overwriteFieldValue(location);
