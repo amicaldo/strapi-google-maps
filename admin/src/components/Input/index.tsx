@@ -13,6 +13,15 @@ import { Config, Coordinates, Location } from '../../../../types';
 import { getConfig } from '../../utils/axios';
 import { getDefaultCordsFromAttribute } from '../../utils/input';
 import { useGeolocated } from 'react-geolocated';
+import NumberFields from './NumberFields';
+
+const invalidCords = (cords: Coordinates) =>
+  isNaN(cords.lat) || isNaN(cords.lng);
+
+const noCords = {
+  lat: NaN,
+  lng: NaN,
+};
 
 const mapsLibraries: 'places'[] = ['places']; // allow the use of places api for searchbox
 
@@ -62,7 +71,7 @@ const Input = ({
     googleMapsKey: '',
   }); // Plugin config
 
-  const [cords, setCords] = useState<Coordinates | null>(null); // Current coordinates
+  const [cords, setCords] = useState<Coordinates>(noCords); // Current coordinates
 
   const [mapsCenter, setMapsCenter] = useState<Coordinates>(
     fallbackCenter // Current map's center coordinates
@@ -83,7 +92,7 @@ const Input = ({
       ? JSON.parse(value || null)
       : null; // Parse saved location, if field's value is being persisted
 
-    setCords(parsedValue?.coordinates || null); // Set cords to saved coordinates, if they exist
+    setCords(parsedValue?.coordinates || noCords); // Set cords to saved coordinates, if they exist
 
     /* Current map's center coordinates */
     setMapsCenter(
@@ -99,7 +108,7 @@ const Input = ({
 
   /* Center the map at userCords, in the right situation */
   useEffect(() => {
-    if (!cords && userCords)
+    if (invalidCords(cords) && userCords)
       // If no coordinates have been picked, use user's current coordinates instead of fallback for map's center
       setMapsCenter({ lat: userCords.latitude, lng: userCords.longitude });
   }, [userCords, cords]);
@@ -131,9 +140,9 @@ const Input = ({
 
   /* Handle coordinates change */
   useEffect(() => {
-    setRequirementNotMet(required && !cords); // Mark the requirement as not met if field's value is null but it's required
+    setRequirementNotMet(required && invalidCords(cords)); // Mark the requirement as not met if field's value is null but it's required
 
-    if (!cords || !mapsIsLoaded) return;
+    if (invalidCords(cords) || !mapsIsLoaded) return;
 
     /* Generate geohash from coordinates */
     const geohash = Geohash.encode(cords?.lat, cords?.lng);
@@ -234,7 +243,7 @@ const Input = ({
               />
             </StandaloneSearchBox>
 
-            {cords && <Marker position={cords} />}
+            {!invalidCords(cords) && <Marker position={cords} />}
           </GoogleMap>
         )}
       </Box>
@@ -249,6 +258,14 @@ const Input = ({
           </Typography>
         </Box>
       )}
+
+      <Box paddingTop={2}>
+        <NumberFields
+          cords={cords}
+          setCords={setCords}
+          setMapsCenter={setMapsCenter}
+        />
+      </Box>
 
       <Box paddingTop={2}>
         <Button startIcon={<Refresh />} onClick={() => resetComponent(false)}>
