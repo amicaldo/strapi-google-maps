@@ -12,10 +12,3 @@ const instance: AxiosInstance = axios.create({
 });
 
 export default instance;
-
-export const getConfig = (): Promise<AxiosResponse> => instance.get('/config');
-
-export const updateConfig = (config: Config): Promise<AxiosResponse> =>
-  instance.put('/config', {
-    data: config,
-  });

@@ -6,6 +6,8 @@ export interface Config {
   googleMapsKey: string;
 }
 
+export interface UpdateConfig extends Omit<Config, 'id'> {}
+
 export interface Coordinates {
   lat: number;
   lng: number;

@@ -14,82 +14,52 @@ import {
   GridItem,
 } from '@strapi/design-system';
 import { Check } from '@strapi/icons';
-import { getConfig, updateConfig } from '../../utils/axios';
-import { AnErrorOccurred, useNotification } from '@strapi/helper-plugin';
-import { Config } from '../../../../types';
+import useConfig from '../../hooks/useConfig';
+import { AnErrorOccurred } from '@strapi/helper-plugin';
+import { Config, UpdateConfig } from '../../../../types';
 
-const Settings = () => {
-  const toggleNotification = useNotification();
+export default function Settings() {
+  const [saveConfig, setSaveConfig] = useState<UpdateConfig | undefined>();
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [errorOccurred, setErrorOccurred] = useState(false);
+  const [inputFields, setInputFields] = useState<UpdateConfig | undefined>();
 
-  const [data, setData] = useState<Config>({
-    id: 0,
-    googleMapsKey: '',
-  });
-  const [madeChanges, setMadeChanges] = useState(false);
+  const [unsavedChanges, setUnsavedChanges] = useState(false);
 
-  /* Fetch plugin config using axios instance */
+  const config = useConfig(saveConfig);
+
   useEffect(() => {
-    getConfig()
-      .then((response) => {
-        setIsLoading(false);
-
-        const { data: config }: { data: Config } = response.data;
-        setData(config);
-      })
-      .catch((error: any) => {
-        setIsLoading(false);
-
-        console.error(error);
-
-        setErrorOccurred(true);
-      });
-  }, []);
-
-  /* Save plugin config using axios instance */
-  const handleSave = async () => {
-    setIsLoading(true);
-
-    try {
-      await updateConfig(data);
-
-      setMadeChanges(false);
-
-      toggleNotification({
-        type: 'success',
-        message: {
-          id: `${pluginId}.config.updated`,
-          defaultMessage: 'Configuration updated',
-        },
-      });
-    } catch (error) {
-      console.error(error);
-
-      toggleNotification({
-        type: 'warning',
-        message: {
-          id: `${pluginId}.error`,
-          defaultMessage: 'An error occurred',
-        },
-      });
-    } finally {
-      setIsLoading(false);
+    if (!!config) {
+      setInputFields(config);
     }
+  }, [config]);
+
+  useEffect(() => {
+    if (!inputFields || !config) return;
+
+    const inputFieldChanged = Object.entries(inputFields).some(
+      ([key, value]) => value !== config[key as keyof Config]
+    );
+
+    setUnsavedChanges(inputFieldChanged);
+  }, [inputFields]);
+
+  const onSave = () => {
+    setUnsavedChanges(false);
+
+    setSaveConfig(inputFields);
   };
 
   return (
     <Box background='neutral100'>
       <Layout>
-        <Main aria-busy={isLoading}>
+        <Main aria-busy={config === undefined}>
           <HeaderLayout
             primaryAction={
               <Button
                 startIcon={<Check />}
-                loading={isLoading}
-                disabled={errorOccurred || !madeChanges}
-                onClick={handleSave}
+                loading={config === undefined}
+                disabled={!unsavedChanges}
+                onClick={onSave}
               >
                 Save
               </Button>
@@ -99,16 +69,16 @@ const Settings = () => {
           />
 
           <ContentLayout>
-            {errorOccurred ? (
+            {config === null ? (
               <AnErrorOccurred
                 content={{
                   id: `${pluginId}.error`,
                   defaultMessage: 'An error occurred',
                 }}
               />
-            ) : isLoading ? (
+            ) : config === undefined || !inputFields ? (
               <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Loader>Loading content...</Loader>
+                <Loader />
               </div>
             ) : (
               <Box
@@ -126,10 +96,12 @@ const Settings = () => {
                   name='apiKey'
                   placeholder='Paste your Google Maps API key here'
                   label='API Key'
-                  value={data.googleMapsKey}
+                  value={inputFields.googleMapsKey}
                   onChange={(e: any) => {
-                    setData({ ...data, googleMapsKey: e.target.value });
-                    setMadeChanges(true);
+                    setInputFields({
+                      ...inputFields,
+                      googleMapsKey: e.target.value,
+                    });
                   }}
                 />
 
@@ -159,6 +131,4 @@ const Settings = () => {
       </Layout>
     </Box>
   );
-};
-
-export default Settings;
+}
