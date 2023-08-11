@@ -13,8 +13,18 @@ export interface Coordinates {
   lng: number;
 }
 
+export interface Place {
+  address: string;
+  coordinates: Coordinates;
+}
+
 export interface Location {
   coordinates: Coordinates;
   geohash: string;
   address: string;
+}
+
+export interface SetPointAction {
+  origin: string;
+  value: Coordinates;
 }

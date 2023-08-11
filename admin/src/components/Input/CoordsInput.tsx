@@ -13,13 +13,11 @@ function generateId(len: number) {
 }
 
 export default function NumberFields({
-  cords,
-  setCords,
-  setMapsCenter,
+  coords,
+  onChange,
 }: {
-  cords: Coordinates | null;
-  setCords: React.Dispatch<React.SetStateAction<Coordinates>>;
-  setMapsCenter: React.Dispatch<React.SetStateAction<Coordinates>>;
+  coords: Coordinates;
+  onChange: (coords: Coordinates) => void;
 }) {
   const windowInputValueDescriptor = Object.getOwnPropertyDescriptor(
     window.HTMLInputElement.prototype,
@@ -30,7 +28,7 @@ export default function NumberFields({
   const latInputId = generateId(10);
   const lngInputId = generateId(10);
 
-  const { lat, lng } = cords || { lat: NaN, lng: NaN };
+  const { lat, lng } = coords;
 
   useEffect(() => {
     const latInput = document.getElementById(latInputId) as HTMLInputElement;
@@ -48,19 +46,6 @@ export default function NumberFields({
     lngInput.dispatchEvent(changeEvent);
   }, [lat, lng]);
 
-  const handleInputValueChange = (newCords: Coordinates) => {
-    setCords(newCords);
-
-    if (
-      isNaN(newCords.lat) ||
-      isNaN(newCords.lng) ||
-      (newCords.lat === lat && newCords.lng === lng)
-    )
-      return;
-
-    setMapsCenter(newCords);
-  };
-
   return (
     <Grid gap={3}>
       <GridItem col={6}>
@@ -70,9 +55,7 @@ export default function NumberFields({
           aria-label='Latitude'
           hint='Latitude'
           name='latitude'
-          onValueChange={(value: number) =>
-            handleInputValueChange({ lat: value, lng })
-          }
+          onValueChange={(value: number) => onChange({ lat: value, lng })}
           size='S'
           value={lat}
         />
@@ -85,9 +68,7 @@ export default function NumberFields({
           aria-label='Longtitude'
           hint='Longtitude'
           name='longtitude'
-          onValueChange={(value: number) =>
-            handleInputValueChange({ lat, lng: value })
-          }
+          onValueChange={(value: number) => onChange({ lat, lng: value })}
           size='S'
           value={lng}
         />

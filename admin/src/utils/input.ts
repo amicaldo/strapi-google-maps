@@ -21,3 +21,19 @@ export const getDefaultCordsFromAttribute = ({
 
   return null;
 };
+
+export const noPoint: Coordinates = {
+  lat: NaN,
+  lng: NaN,
+};
+
+export const isValidPoint = (point: Coordinates): boolean => {
+  return !isNaN(point.lat) && !isNaN(point.lng);
+};
+
+export const isSamePoint = (
+  point1: Coordinates,
+  point2: Coordinates
+): boolean => {
+  return point1.lat === point2.lat && point1.lng === point2.lng;
+};
