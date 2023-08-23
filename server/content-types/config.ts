@@ -15,6 +15,7 @@ const schema: Model = {
     displayName: 'Google Maps Config',
   },
   options: {
+    populateCreatorFields: false,
     // @ts-ignore
     draftAndPublish: false,
   },

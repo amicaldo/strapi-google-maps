@@ -1,6 +1,6 @@
 {
   "name": "@amicaldo/strapi-google-maps",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A Google Maps custom field for Strapi, allowing you to pick a location.",
   "repository": {
     "type": "git",
@@ -26,13 +26,13 @@
   ],
   "dependencies": {
     "@react-google-maps/api": "^2.18.1",
-    "@strapi/design-system": "^1.6.3",
-    "@strapi/helper-plugin": "^4.6.0",
-    "@strapi/icons": "^1.6.3",
     "axios": "^1.4.0",
     "latlon-geohash": "^2.0.0",
     "prop-types": "^15.7.2",
-    "react-geolocated": "^4.1.0"
+    "react-geolocated": "^4.1.0",
+    "@strapi/design-system": "^1.6.3",
+    "@strapi/helper-plugin": "^4.6.0",
+    "@strapi/icons": "^1.6.3"
   },
   "devDependencies": {
     "@strapi/typescript-utils": "^4.6.0",
@@ -40,14 +40,13 @@
     "@types/react-dom": "^17.0.18",
     "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^5.1.26",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-router-dom": "^5.3.4",
-    "semver": "^7.5.4",
     "typescript": "5.0.4"
   },
   "peerDependencies": {
-    "@strapi/strapi": "^4.0.0"
+    "@strapi/strapi": "^4.11.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-router-dom": "5.3.4"
   },
   "author": {
     "name": "amicaldo GmbH"

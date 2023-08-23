@@ -41,6 +41,9 @@ You just need to install the `strapi-google-maps` package via npm, at the root o
 
 ```bash
 npm i @amicaldo/strapi-google-maps
+
+# IMPORTANT: For Strapi versions before 4.11.0 install an older version instead:
+npm i @amicaldo/strapi-google-maps@1.0.4
 ```
 
 **To make Google Maps work, you should take a look at the next section.**
