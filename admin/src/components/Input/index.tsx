@@ -24,20 +24,24 @@ export default function Input({
 
   const [focusPoint, setFocusPoint] = useState<Coordinates | undefined>();
 
-  const [currentPoint, setCurrentPoint] = useReducer((_: any, action: any) => {
-    const { origin, value } = action;
+  const [currentPoint, setCurrentPoint] = useReducer(
+    (state: Coordinates, action: any) => {
+      const { origin, value } = action;
 
-    if (
-      (origin === 'coordsInput' ||
-        origin === 'placeSearch' ||
-        origin === 'fieldValue') &&
-      isValidPoint(value)
-    ) {
-      setFocusPoint(value);
-    }
+      if (
+        (origin === 'coordsInput' ||
+          origin === 'placeSearch' ||
+          origin === 'fieldValue') &&
+        isValidPoint(value) &&
+        !isSamePoint(state, value)
+      ) {
+        setFocusPoint(value);
+      }
 
-    return value;
-  }, noPoint);
+      return value;
+    },
+    noPoint
+  );
 
   const [currentAddress, setCurrentAddress] = useState('');
 
