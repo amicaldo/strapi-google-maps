@@ -76,7 +76,7 @@ export default [
         useDefaults: true,
         directives: {
           'connect-src': ["'self'", 'https:'],
-          'script-src': ["'self'", 'https://maps.googleapis.com'],
+          'script-src': ["'self'", 'unsafe-inline', 'https://maps.googleapis.com'],
           'media-src': [
             "'self'",
             'blob:',
