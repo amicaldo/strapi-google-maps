@@ -1,7 +1,8 @@
 {
   "name": "@amicaldo/strapi-google-maps",
-  "version": "1.1.5",
+  "version": "2.0.0",
   "description": "A Google Maps custom field for Strapi, allowing you to pick a location.",
+  "type": "commonjs",
   "repository": {
     "type": "git",
     "url": "https://github.com/amicaldo/strapi-google-maps.git"
@@ -25,28 +26,35 @@
     "strapi-custom-field"
   ],
   "dependencies": {
-    "@react-google-maps/api": "^2.18.1",
-    "axios": "^1.4.0",
+    "@react-google-maps/api": "^2.20.6",
+    "@strapi/design-system": "^2.0.0-rc.23",
+    "@strapi/icons": "^2.0.0-rc.23",
+    "react-intl": "^7.1.11",
+    "axios": "^1.9.0",
     "latlon-geohash": "^2.0.0",
     "prop-types": "^15.7.2",
-    "react-geolocated": "^4.1.0",
-    "@strapi/design-system": "^1.6.3",
-    "@strapi/helper-plugin": "^4.6.0",
-    "@strapi/icons": "^1.6.3"
+    "react-geolocated": "^4.3.0"
   },
   "devDependencies": {
-    "@strapi/typescript-utils": "^4.6.0",
-    "@types/react": "^18.2.6",
-    "@types/react-dom": "^17.0.18",
-    "@types/react-router-dom": "^5.3.3",
-    "@types/styled-components": "^5.1.26",
-    "typescript": "5.0.4"
+    "@strapi/strapi": "^5.12.5",
+    "@strapi/sdk-plugin": "^5.3.2",
+    "prettier": "^3.5.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.0",
+    "styled-components": "^6.1.17",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "@strapi/typescript-utils": "^5.12.5",
+    "typescript": "^5.8.3"
   },
   "peerDependencies": {
-    "@strapi/strapi": "^4.11.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-router-dom": "5.3.4"
+    "@strapi/strapi": "^5.12.5",
+    "@strapi/sdk-plugin": "^5.3.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.0",
+    "styled-components": "^6.1.17"
   },
   "author": {
     "name": "amicaldo GmbH"
@@ -57,26 +65,39 @@
     }
   ],
   "engines": {
-    "node": ">=14.19.1",
+    "node": ">=18.0.0 <=22.x.x",
     "npm": ">=6.0.0"
   },
   "scripts": {
-    "develop": "tsc -p tsconfig.server.json -w",
-    "build": "tsc -p tsconfig.server.json"
+    "build": "strapi-plugin build",
+    "watch": "strapi-plugin watch",
+    "watch:link": "strapi-plugin watch:link",
+    "verify": "strapi-plugin verify",
+    "test:ts:front": "run -T tsc -p admin/tsconfig.json",
+    "test:ts:back": "run -T tsc -p server/tsconfig.json"
   },
   "publishConfig": {
     "access": "public"
   },
   "license": "MIT",
   "files": [
-    "admin",
-    "dist/server",
-    "deps.d.ts",
-    "package.json",
-    "README.md",
-    "strapi-admin.js",
-    "strapi-server.js",
-    "tsconfig.json",
-    "types.d.ts"
-  ]
+    "dist"
+  ],
+  "exports": {
+    "./package.json": "./package.json",
+    "./strapi-admin": {
+      "types": "./dist/admin/src/index.d.ts",
+      "source": "./admin/src/index.ts",
+      "import": "./dist/admin/index.mjs",
+      "require": "./dist/admin/index.js",
+      "default": "./dist/admin/index.js"
+    },
+    "./strapi-server": {
+      "types": "./dist/server/src/index.d.ts",
+      "source": "./server/src/index.ts",
+      "import": "./dist/server/index.mjs",
+      "require": "./dist/server/index.js",
+      "default": "./dist/server/index.js"
+    }
+  }
 }

@@ -1,31 +1,32 @@
 import { useEffect, useState } from 'react';
 import { Config, UpdateConfig } from '../../../types';
-import axios from '../utils/axios';
-import { AxiosResponse } from 'axios';
+import { useFetchClient } from '@strapi/strapi/admin';
+import { PLUGIN_ID } from '../pluginId';
 
-const endpoint = '/config';
+const endpoint = `/api/${PLUGIN_ID}/config`;
 
-export default function useConfig(newConfig?: UpdateConfig) {
-  const [config, setConfig] = useState<Config | undefined | null>();
+export default function useConfig(token = '', newConfig?: UpdateConfig) {
+    const [config, setConfig] = useState<Config | undefined | null>();
+    const { get, put } = useFetchClient();
 
-  const onResponse = ({ data }: AxiosResponse) => setConfig(data.data);
+    const onResponse = ({ data }: { data: Config }) => setConfig(data);
 
-  const onError = (error: Error) => {
-    console.error(error);
-    setConfig(null);
-  };
+    const onError = (error: Error) => {
+        console.error(error);
+        setConfig(null);
+    };
 
-  useEffect(() => {
-    axios.get(endpoint).then(onResponse).catch(onError);
-  }, []);
+    useEffect(() => {
+        get(endpoint).then(onResponse).catch(onError);
+    }, []);
 
-  useEffect(() => {
-    if (newConfig) {
-      setConfig(undefined);
+    useEffect(() => {
+        if (newConfig) {
+            setConfig(undefined);
 
-      axios.put(endpoint, { data: newConfig }).then(onResponse).catch(onError);
-    }
-  }, [newConfig]);
+            put(endpoint, { data: newConfig }).then(onResponse).catch(onError);
+        }
+    }, [newConfig]);
 
-  return config;
+    return config;
 }

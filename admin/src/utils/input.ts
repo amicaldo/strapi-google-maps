@@ -6,34 +6,34 @@ import { Coordinates } from '../../../types';
  * @returns Default coordinates if they are valid, otherwise null
  */
 export const getDefaultCordsFromAttribute = ({
-  optionsDefaultLat,
-  optionsDefaultLng,
+    optionsDefaultLat,
+    optionsDefaultLng,
 }: {
-  optionsDefaultLat: string;
-  optionsDefaultLng: string;
+    optionsDefaultLat: string;
+    optionsDefaultLng: string;
 }): Coordinates | null => {
-  const defaultLat = Number(optionsDefaultLat);
-  const defaultLng = Number(optionsDefaultLng);
+    const defaultLat = Number(optionsDefaultLat);
+    const defaultLng = Number(optionsDefaultLng);
 
-  if (defaultLat && defaultLng && !isNaN(defaultLat) && !isNaN(defaultLng)) {
-    return { lat: defaultLat, lng: defaultLng };
-  }
+    if (defaultLat && defaultLng && !isNaN(defaultLat) && !isNaN(defaultLng)) {
+        return { lat: defaultLat, lng: defaultLng };
+    }
 
-  return null;
+    return null;
 };
 
 export const noPoint: Coordinates = {
-  lat: NaN,
-  lng: NaN,
+    lat: NaN,
+    lng: NaN,
 };
 
 export const isValidPoint = (point: Coordinates): boolean => {
-  return !isNaN(point.lat) && !isNaN(point.lng);
+    return !isNaN(point.lat) && !isNaN(point.lng);
 };
 
 export const isSamePoint = (
-  point1: Coordinates,
-  point2: Coordinates
+    point1: Coordinates,
+    point2: Coordinates
 ): boolean => {
-  return point1.lat === point2.lat && point1.lng === point2.lng;
+    return point1.lat === point2.lat && point1.lng === point2.lng;
 };

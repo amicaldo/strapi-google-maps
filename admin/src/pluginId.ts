@@ -1,8 +1,3 @@
-import pluginPkg from '../../package.json';
+const PLUGIN_ID = 'google-maps';
 
-const pluginId = pluginPkg.strapi.name.replace(
-  /^(@[^-,.][\w,-]+\/|strapi-)plugin-/i,
-  ''
-);
-
-export default pluginId;
+export { PLUGIN_ID };

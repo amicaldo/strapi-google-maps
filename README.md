@@ -32,7 +32,7 @@ You can configure this plugin inside your Strapi dashboard's settings tab (e.g. 
 
 ## ❗ Requirements
 
-- Strapi v4
+- Strapi v5
 - To use the plugin without restrictions, you should consider getting an API key for the Google Maps Platform, with additional access to the Places API.
 
 ## 🔧 Installation
@@ -41,6 +41,9 @@ You just need to install the `strapi-google-maps` package via npm, at the root o
 
 ```bash
 npm i @amicaldo/strapi-google-maps
+
+# IMPORTANT: For Strapi versions before 5 install an older version instead:
+npm i @amicaldo/strapi-google-maps@1.1.5
 
 # IMPORTANT: For Strapi versions before 4.11.0 install an older version instead:
 npm i @amicaldo/strapi-google-maps@1.0.4
@@ -119,6 +122,11 @@ export default [
 ];
 ```
 
+## Features
+
+- Default latitude and longitude;
+- Google Maps API key can be set in the environment variables (`GOOGLE_MAPS_API_KEY`);
+
 ## 👨‍💻 Manual Installation (not recommended)
 
 Navigate into your Strapi's plugins folder and clone this repository.
@@ -157,3 +165,11 @@ Lastly, recompile the admin panel of your Strapi project.
 ```bash
 npm run build
 ```
+
+## Acknowledgements
+
+* @roodekk
+* @maektwain
+* @prinzjuliano
+* @roes
+* @candidosales
