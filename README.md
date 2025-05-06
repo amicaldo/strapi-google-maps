@@ -10,19 +10,31 @@ The API response of a Strapi content-type implementing this google-maps custom f
 
 ```json
 {
-  "data": {
-    "id": 16,
-    "attributes": {
+  "data": [
+    {
+      "id": 1,
+      "documentId": "tub3d05itueb9vw1bux9f66a",
       "location": {
+        "address": "Königswall 21, 44137 Dortmund, Germany",
         "coordinates": {
           "lat": 51.5164315,
           "lng": 7.455616999999997
         },
         "geohash": "u1jm1dm0bqyu"
-      }
+      },
+      "createdAt": "2025-05-06T11:45:32.505Z",
+      "updatedAt": "2025-05-06T11:53:48.099Z",
+      "publishedAt": "2025-05-06T11:53:48.102Z"
     }
-  },
-  "meta": {}
+  ],
+  "meta": {
+    "pagination": {
+      "page": 1,
+      "pageSize": 25,
+      "pageCount": 1,
+      "total": 1
+    }
+  }
 }
 ```
 
