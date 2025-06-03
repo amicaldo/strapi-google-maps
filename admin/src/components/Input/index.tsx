@@ -10,6 +10,7 @@ import Geohash from 'latlon-geohash';
 import MapView from './MapView';
 import NumberFields from './CoordsInput';
 import { useAuth } from '@strapi/strapi/admin';
+import { GoogleMapsProvider } from './GoogleMapsProvider';
 
 export default function Input({ attribute, onChange, value, name, required }: any) {
   const { formatMessage } = useIntl();
@@ -118,7 +119,7 @@ export default function Input({ attribute, onChange, value, name, required }: an
       )}
 
       {!!config && (
-        <>
+        <GoogleMapsProvider config={config}>
           <Box marginTop={1} borderColor={nothingSelectedWarning ? 'danger600' : 'primary200'}>
             <MapView
               config={config}
@@ -155,7 +156,7 @@ export default function Input({ attribute, onChange, value, name, required }: an
               })}
             </Button>
           </Box>
-        </>
+        </GoogleMapsProvider>
       )}
     </>
   );

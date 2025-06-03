@@ -1,16 +1,15 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Config, Coordinates, Place, SetPointAction } from '../../../../types';
-import { GoogleMap, LoadScript } from '@react-google-maps/api';
+import { GoogleMap } from '@react-google-maps/api';
 import { Loader } from '@strapi/design-system';
 import { useGeolocated } from 'react-geolocated';
 import Search from './Search';
+import { useGoogleMaps } from './GoogleMapsProvider';
 
 const fallbackCenter: Coordinates = {
     lat: 51.51652494189269,
     lng: 7.45560626859687,
 };
-
-const libraries: 'places'[] = ['places'];
 
 export default function MapView({
     children,
@@ -27,8 +26,7 @@ export default function MapView({
     onCoordsChange: (action: SetPointAction) => void;
     onAddressChange: (address: string) => void;
 }) {
-    const [scriptLoaded, onScriptLoaded] = useReducer(() => true, false);
-
+    const { isLoaded, loadError } = useGoogleMaps();
     const [center, setCenter] = useState<Coordinates>(fallbackCenter);
 
     const { coords: userCoords }: { coords?: GeolocationCoordinates } =
@@ -56,17 +54,17 @@ export default function MapView({
         onAddressChange(place.address);
     };
 
+    if (loadError) {
+        return (
+            <div style={{ display: 'flex', justifyContent: 'center', padding: '20px' }}>
+                <p>Failed to load Google Maps. Please check your API key.</p>
+            </div>
+        );
+    }
+
     return (
         <>
-            {!!config && (
-                <LoadScript
-                    googleMapsApiKey={config.googleMapsKey}
-                    libraries={libraries} // allow the use of places api for searchbox
-                    onLoad={onScriptLoaded}
-                />
-            )}
-
-            {scriptLoaded ? (
+            {isLoaded ? (
                 <GoogleMap
                     mapContainerStyle={{
                         width: '100%',
