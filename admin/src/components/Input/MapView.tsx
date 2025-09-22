@@ -1,6 +1,6 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Config, Coordinates, Place, SetPointAction } from '../../../../types';
-import { GoogleMap, LoadScript } from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import { Loader } from '@strapi/design-system';
 import { useGeolocated } from 'react-geolocated';
 import Search from './Search';
@@ -10,7 +10,7 @@ const fallbackCenter: Coordinates = {
     lng: 7.45560626859687,
 };
 
-const libraries: 'places'[] = ['places'];
+const libraries: ('places')[] = ['places'];
 
 export default function MapView({
     children,
@@ -27,7 +27,11 @@ export default function MapView({
     onCoordsChange: (action: SetPointAction) => void;
     onAddressChange: (address: string) => void;
 }) {
-    const [scriptLoaded, onScriptLoaded] = useReducer(() => true, false);
+    const { isLoaded } = useJsApiLoader({
+        googleMapsApiKey: config?.googleMapsKey || '',
+        libraries,
+        id: 'google-map-script',
+    });
 
     const [center, setCenter] = useState<Coordinates>(fallbackCenter);
 
@@ -56,45 +60,37 @@ export default function MapView({
         onAddressChange(place.address);
     };
 
+    if (!config || !isLoaded) {
+        return (
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Loader small />
+            </div>
+        );
+    }
+
     return (
-        <>
-            {!!config && (
-                <LoadScript
-                    googleMapsApiKey={config.googleMapsKey}
-                    libraries={libraries} // allow the use of places api for searchbox
-                    onLoad={onScriptLoaded}
-                />
-            )}
+        <GoogleMap
+            mapContainerStyle={{
+                width: '100%',
+                height: '400px',
+            }}
+            center={center}
+            zoom={20}
+            onClick={({ latLng }) =>
+                onCoordsChange({
+                    origin: 'map',
+                    value: latLng?.toJSON() as Coordinates,
+                })
+            }
+        >
+            <Search
+                userCoords={userCoords}
+                currentAddress={currentAddress}
+                onPlaceSelected={onPlaceSelected}
+                onAddressEdited={onAddressChange}
+            />
 
-            {scriptLoaded ? (
-                <GoogleMap
-                    mapContainerStyle={{
-                        width: '100%',
-                        height: '400px',
-                    }}
-                    center={center}
-                    zoom={20}
-                    onClick={({ latLng }) =>
-                        onCoordsChange({
-                            origin: 'map',
-                            value: latLng?.toJSON() as Coordinates,
-                        })
-                    }
-                >
-                    <Search
-                        userCoords={userCoords}
-                        currentAddress={currentAddress}
-                        onPlaceSelected={onPlaceSelected}
-                        onAddressEdited={onAddressChange}
-                    />
-
-                    {children}
-                </GoogleMap>
-            ) : (
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <Loader small />
-                </div>
-            )}
-        </>
+            {children}
+        </GoogleMap>
     );
 }
