@@ -11,6 +11,18 @@ import MapView from './MapView';
 import NumberFields from './CoordsInput';
 import { useAuth } from '@strapi/strapi/admin';
 
+// Helper function to compare Location objects by value
+const isLocationEqual = (location1: Location | null, location2: Location | null): boolean => {
+  if (location1 === location2) return true;
+  if (!location1 || !location2) return false;
+  
+  return (
+    location1.address === location2.address &&
+    location1.geohash === location2.geohash &&
+    isSamePoint(location1.coordinates, location2.coordinates)
+  );
+};
+
 export default function Input({ attribute, onChange, value, name, required }: any) {
   const { formatMessage } = useIntl();
 
@@ -69,15 +81,32 @@ export default function Input({ attribute, onChange, value, name, required }: an
       return;
     }
 
-    const newValue: string | null = isValidPoint(currentPoint)
-      ? JSON.stringify({
+    const newLocation: Location | null = isValidPoint(currentPoint)
+      ? {
           address: currentAddress,
           coordinates: currentPoint,
           geohash: Geohash.encode(currentPoint.lat, currentPoint.lng),
-        })
+        }
       : null;
 
-    if (newValue === (typeof value === 'string' ? value : JSON.stringify(value))) return;
+    // Parse the existing value for comparison
+    let existingLocation: Location | null = null;
+    if (value) {
+      if (typeof value === 'string') {
+        try {
+          existingLocation = JSON.parse(value);
+        } catch (e) {
+          // Invalid JSON, treat as null
+        }
+      } else {
+        existingLocation = value;
+      }
+    }
+
+    // Only trigger onChange if the values are actually different
+    if (isLocationEqual(newLocation, existingLocation)) return;
+    
+    const newValue = newLocation ? JSON.stringify(newLocation) : null;
     onChange({
       target: {
         name,
