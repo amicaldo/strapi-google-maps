@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Config, Coordinates, Place, SetPointAction } from '../../../../types';
+import { Config, Coordinates, SetPointAction } from '../../../../types';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import { Loader } from '@strapi/design-system';
 import { useGeolocated } from 'react-geolocated';
@@ -18,12 +18,14 @@ export default function MapView({
     focusPoint,
     onCoordsChange,
     onAddressChange,
+    onPlaceDetailsChange,
 }: {
     children: React.ReactNode;
     config?: Config;
     focusPoint?: Coordinates;
     onCoordsChange: (action: SetPointAction) => void;
     onAddressChange: (address: string) => void;
+    onPlaceDetailsChange?: (details: any) => void;
 }) {
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: config?.googleMapsKey || '',
@@ -53,7 +55,7 @@ export default function MapView({
         }
     }, [focusPoint, userCoords]);
 
-    const onPlaceSelected = (place: Place) => {
+    const onPlaceSelected = (place: { address: string; coordinates: Coordinates }) => {
         onCoordsChange({ origin: 'placeSearch', value: place.coordinates });
         onAddressChange(place.address);
     };
@@ -77,16 +79,55 @@ export default function MapView({
             options={{
                 mapId: 'DEMO_MAP_ID',
             }}
-            onClick={({ latLng }) =>
-                onCoordsChange({
-                    origin: 'map',
-                    value: latLng?.toJSON() as Coordinates,
-                })
-            }
+				onClick={({ latLng }) => {
+					const coords = latLng?.toJSON() as Coordinates;
+					onCoordsChange({ origin: 'map', value: coords });
+
+					try {
+						const geocoder = new google.maps.Geocoder();
+						geocoder
+							.geocode({ location: coords })
+							.then(({ results }) => {
+								const best = results && results.length > 0 ? results[0] : undefined;
+								if (!best) return;
+
+								const formatted = (best as any).formatted_address || '';
+								onAddressChange(formatted);
+
+								const ac = (best as any).address_components || [];
+								const pick = (type: string) => ac.find((c: any) => Array.isArray(c.types) && c.types.includes(type));
+								const components = {
+									streetNumber: pick('street_number')?.long_name,
+									route: pick('route')?.long_name,
+									postalCode: pick('postal_code')?.long_name,
+									city: pick('locality')?.long_name,
+									state: pick('administrative_area_level_1')?.short_name,
+									country: pick('country')?.long_name,
+								};
+
+								onPlaceDetailsChange?.({
+									address: formatted,
+									coordinates: coords,
+									components,
+									place: {
+										id: (best as any).place_id,
+										name: (best as any).name,
+										types: (best as any).types,
+									},
+								});
+							})
+							.catch((error) => {
+								console.error('[Google Maps] Error reverse geocoding:', error);
+							});
+					} catch (error) {
+						console.error('[Google Maps] Geocoder init failed:', error);
+					}
+				}}
         >
             <Search
                 userCoords={userCoords}
                 onPlaceSelected={onPlaceSelected}
+                onPlaceDetails={onPlaceDetailsChange}
             />
 
             {children}

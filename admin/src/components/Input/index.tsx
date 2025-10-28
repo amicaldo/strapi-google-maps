@@ -35,21 +35,29 @@ export default function Input({ attribute, onChange, value, name, required, labe
   const [focusPoint, setFocusPoint] = useState<Coordinates | undefined>();
 
   const [currentPoint, setCurrentPoint] = useReducer((state: Coordinates, action: any) => {
-    const { origin, value } = action;
+    const { origin, value } = action as { origin: string; value?: Coordinates };
+
+    const hasCoords = value && typeof (value as any).lat === 'number' && typeof (value as any).lng === 'number';
 
     if (
       (origin === 'coordsInput' || origin === 'placeSearch' || origin === 'fieldValue') &&
-      isValidPoint(value) &&
-      !isSamePoint(state, value)
+      hasCoords &&
+      isValidPoint(value as Coordinates) &&
+      !isSamePoint(state, value as Coordinates)
     ) {
-      setFocusPoint(value);
+      setFocusPoint(value as Coordinates);
     }
 
-    return value;
+    return hasCoords ? (value as Coordinates) : state;
   }, noPoint);
 
   const [currentAddress, setCurrentAddress] = useState('');
   const [nothingSelectedWarning, setNothingSelectedWarning] = useState(false);
+  const [currentDetails, setCurrentDetails] = useState<{
+    address?: string;
+    components?: Location['components'];
+    place?: Location['place'];
+  } | null>(null);
 
   useEffect(() => {
     if (required && !isValidPoint(currentPoint)) {
@@ -86,9 +94,11 @@ export default function Input({ attribute, onChange, value, name, required, labe
 
     const newLocation: Location | null = isValidPoint(currentPoint)
       ? {
-          address: currentAddress,
+          address: currentDetails?.address ?? currentAddress,
           coordinates: currentPoint,
           geohash: Geohash.encode(currentPoint.lat, currentPoint.lng),
+          components: currentDetails?.components,
+          place: currentDetails?.place,
         }
       : null;
 
@@ -117,7 +127,7 @@ export default function Input({ attribute, onChange, value, name, required, labe
         type: attribute.type,
       },
     });
-  }, [currentPoint, currentAddress]);
+  }, [currentPoint, currentAddress, currentDetails]);
 
   // If the config is set and the value is not set, set the focus point to the default latitude and longitude
   useEffect(() => {
@@ -153,6 +163,13 @@ export default function Input({ attribute, onChange, value, name, required, labe
               focusPoint={focusPoint}
               onCoordsChange={setCurrentPoint}
               onAddressChange={setCurrentAddress}
+              onPlaceDetailsChange={(details) => {
+                setCurrentDetails({
+                  address: details.address,
+                  components: details.components,
+                  place: details.place,
+                });
+              }}
             >
               {isValidPoint(currentPoint) && <AdvancedMarker position={currentPoint} />}
             </MapView>

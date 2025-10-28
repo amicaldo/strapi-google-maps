@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Coordinates, Place } from '../../../../types';
+import { Coordinates } from '../../../../types';
 import { useIntl } from 'react-intl';
 
 // Helper function to find the input element inside PlaceAutocompleteElement
@@ -24,9 +24,23 @@ function findInputElement(element: any): HTMLInputElement | null {
 export default function Search({
     userCoords,
     onPlaceSelected,
+    onPlaceDetails,
 }: {
     userCoords?: GeolocationCoordinates;
-    onPlaceSelected: (place: Place) => void;
+    onPlaceSelected: (place: { address: string; coordinates: Coordinates }) => void;
+    onPlaceDetails?: (details: {
+        address: string;
+        coordinates: Coordinates;
+        components?: {
+            streetNumber?: string;
+            route?: string;
+            postalCode?: string;
+            city?: string;
+            state?: string;
+            country?: string;
+        };
+        place?: { id?: string; name?: string; types?: string[] };
+    }) => void;
 }) {
     const { formatMessage } = useIntl();
     const containerRef = useRef<HTMLDivElement>(null);
@@ -80,7 +94,14 @@ export default function Search({
 
                         // Fetch the required fields
                         await place.fetchFields({
-                            fields: ['formattedAddress', 'location'],
+                            fields: [
+                                'formattedAddress',
+                                'location',
+                                'addressComponents',
+                                'displayName',
+                                'id',
+                                'types',
+                            ],
                         });
 
                         if (place.formattedAddress && place.location) {
@@ -92,6 +113,29 @@ export default function Search({
                             onPlaceSelected({
                                 address: place.formattedAddress,
                                 coordinates,
+                            });
+
+                            // Build extended details (address components, business meta)
+                            const ac = (place as any).addressComponents || [];
+                            const pick = (type: string) => ac.find((c: any) => Array.isArray(c.types) && c.types.includes(type));
+                            const components = {
+                                streetNumber: pick('street_number')?.longText || pick('street_number')?.long_name,
+                                route: pick('route')?.shortText || pick('route')?.short_name,
+                                postalCode: pick('postal_code')?.longText || pick('postal_code')?.long_name,
+                                city: pick('locality')?.longText || pick('locality')?.long_name,
+                                state: pick('administrative_area_level_1')?.shortText || pick('administrative_area_level_1')?.short_name,
+                                country: pick('country')?.longText || pick('country')?.long_name,
+                            };
+
+                            onPlaceDetails?.({
+                                address: place.formattedAddress,
+                                coordinates,
+                                components,
+                                place: {
+                                    id: (place as any).id,
+                                    name: (place as any).displayName,
+                                    types: (place as any).types,
+                                },
                             });
                         }
                     } catch (error) {

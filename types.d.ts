@@ -21,10 +21,27 @@ export interface Place {
     coordinates: Coordinates;
 }
 
+export interface AddressComponents {
+    streetNumber?: string;
+    route?: string;
+    postalCode?: string;
+    city?: string;
+    state?: string;
+    country?: string;
+}
+
+export interface PlaceMeta {
+    id?: string;
+    name?: string;
+    types?: string[];
+}
+
 export interface Location {
     coordinates: Coordinates;
     geohash: string;
     address: string;
+    components?: AddressComponents;
+    place?: PlaceMeta;
 }
 
 export interface SetPointAction {
