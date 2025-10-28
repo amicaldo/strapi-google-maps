@@ -91,6 +91,20 @@ export default function Settings() {
                                 });
                             }}
                         />
+                        <TextInput
+                            type='text'
+                            id='mapId'
+                            name='mapId'
+                            placeholder='Leave empty to use DEMO_MAP_ID (testing only)'
+                            label='Map ID (Optional)'
+                            value={inputFields.mapId || ''}
+                            onChange={(e: any) => {
+                                setInputFields({
+                                    ...inputFields,
+                                    mapId: e.target.value,
+                                });
+                            }}
+                        />
                         <Grid.Root>
                             <Grid.Item col={2} padding={0}>
                                 <TextInput
@@ -143,6 +157,15 @@ export default function Settings() {
                                     isExternal
                                 >
                                     Grant your API key access to the Google Places API
+                                </Link>
+                            </Grid.Item>
+
+                            <Grid.Item col={5} padding={2}>
+                                <Link
+                                    href='https://developers.google.com/maps/documentation/javascript/map-ids'
+                                    isExternal
+                                >
+                                    Create a Map ID for Advanced Markers
                                 </Link>
                             </Grid.Item>
                         </Grid.Root>

@@ -4,7 +4,7 @@ import { Coordinates, Location } from '../../../../types';
 import { isSamePoint, isValidPoint, noPoint } from '../../utils/input';
 import { useIntl } from 'react-intl';
 import useConfig from '../../hooks/useConfig';
-import { Marker } from '@react-google-maps/api';
+import AdvancedMarker from './AdvancedMarker';
 import { ArrowClockwise } from '@strapi/icons';
 import Geohash from 'latlon-geohash';
 import MapView from './MapView';
@@ -155,7 +155,7 @@ export default function Input({ attribute, onChange, value, name, required }: an
               onCoordsChange={setCurrentPoint}
               onAddressChange={setCurrentAddress}
             >
-              {isValidPoint(currentPoint) && <Marker position={currentPoint} />}
+              {isValidPoint(currentPoint) && <AdvancedMarker position={currentPoint} />}
             </MapView>
           </Box>
 

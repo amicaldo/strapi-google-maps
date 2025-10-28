@@ -26,6 +26,12 @@ const schema = {
             required: true,
             configurable: false,
         },
+        mapId: {
+            type: 'string',
+            default: 'DEMO_MAP_ID',
+            required: false,
+            configurable: false,
+        },
         defaultLatitude: {
             type: 'string',
             default: '',

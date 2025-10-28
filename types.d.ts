@@ -4,6 +4,7 @@
 export interface Config {
     id: number;
     googleMapsKey: string;
+    mapId?: string;
     defaultLatitude: string;
     defaultLongitude: string;
 }

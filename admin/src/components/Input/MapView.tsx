@@ -10,7 +10,7 @@ const fallbackCenter: Coordinates = {
     lng: 7.45560626859687,
 };
 
-const libraries: ('places')[] = ['places'];
+const libraries: ('places' | 'marker')[] = ['places', 'marker'];
 
 export default function MapView({
     children,
@@ -74,6 +74,9 @@ export default function MapView({
             }}
             center={center}
             zoom={20}
+            options={{
+                mapId: config?.mapId || 'DEMO_MAP_ID',
+            }}
             onClick={({ latLng }) =>
                 onCoordsChange({
                     origin: 'map',
