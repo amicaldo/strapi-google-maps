@@ -75,7 +75,7 @@ export default function MapView({
             center={center}
             zoom={20}
             options={{
-                mapId: config?.mapId || 'DEMO_MAP_ID',
+                mapId: 'DEMO_MAP_ID',
             }}
             onClick={({ latLng }) =>
                 onCoordsChange({
