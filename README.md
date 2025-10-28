@@ -99,6 +99,16 @@ You can configure this plugin inside your Strapi dashboard's settings tab (e.g. 
 - Strapi v5
 - To use the plugin without restrictions, you should consider getting an API key for the Google Maps Platform, with additional access to the Places API.
 
+## ⚠️ Migrating to v3
+
+After upgrading to v3, when testing the Google Maps field in the Strapi admin, carefully watch the browser console for Google Maps Platform errors. These messages commonly indicate missing API key permissions or restrictive key settings (e.g., missing Places or Geocoding API, wrong HTTP referrer restrictions). The errors include links/instructions to resolve the issue in Google Cloud Console. Follow them to:
+
+- Enable required APIs (Maps JavaScript API, Places API, Geocoding API)
+- Adjust key restrictions (HTTP referrers, IP/app restrictions)
+- Regenerate/update keys if necessary
+
+Once permissions are corrected, reload the admin and retest the field.
+
 ## 🔧 Installation
 
 You just need to install the `strapi-google-maps` package via npm, at the root of your strapi project.
