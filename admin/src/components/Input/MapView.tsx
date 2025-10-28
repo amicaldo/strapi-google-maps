@@ -16,14 +16,12 @@ export default function MapView({
     children,
     config,
     focusPoint,
-    currentAddress,
     onCoordsChange,
     onAddressChange,
 }: {
     children: React.ReactNode;
     config?: Config;
     focusPoint?: Coordinates;
-    currentAddress: string;
     onCoordsChange: (action: SetPointAction) => void;
     onAddressChange: (address: string) => void;
 }) {
@@ -85,9 +83,7 @@ export default function MapView({
         >
             <Search
                 userCoords={userCoords}
-                currentAddress={currentAddress}
                 onPlaceSelected={onPlaceSelected}
-                onAddressEdited={onAddressChange}
             />
 
             {children}

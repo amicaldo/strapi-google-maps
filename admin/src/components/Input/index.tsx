@@ -152,13 +152,35 @@ export default function Input({ attribute, onChange, value, name, required }: an
             <MapView
               config={config}
               focusPoint={focusPoint}
-              currentAddress={currentAddress}
               onCoordsChange={setCurrentPoint}
               onAddressChange={setCurrentAddress}
             >
               {isValidPoint(currentPoint) && <Marker position={currentPoint} />}
             </MapView>
           </Box>
+
+          {currentAddress && (
+            <Box marginTop={2}>
+              <input
+                type="text"
+                value={currentAddress}
+                onChange={(e) => setCurrentAddress(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '8px 12px',
+                  border: '1px solid #d0d7e3',
+                  borderRadius: '4px',
+                  fontSize: '14px',
+                  backgroundColor: '#fff',
+                  fontFamily: 'inherit',
+                }}
+                aria-label={formatMessage({
+                  id: 'google-maps.selected-address',
+                  defaultMessage: 'Selected address',
+                })}
+              />
+            </Box>
+          )}
 
           {nothingSelectedWarning && (
             <Box paddingTop={1}>
