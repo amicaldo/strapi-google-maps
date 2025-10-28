@@ -38,6 +38,58 @@ The API response of a Strapi content-type implementing this google-maps custom f
 }
 ```
 
+When available, the saved `location` also includes parsed address components and basic place metadata. The `address` is sourced directly from the Google Places API (formatted address) when you pick from autocomplete, or from the Google Geocoding API when you click on the map.
+
+Example with extended attributes:
+
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "documentId": "tub3d05itueb9vw1bux9f66a",
+      "location": {
+        "address": "Königswall 21, 44137 Dortmund, Germany",
+        "coordinates": { "lat": 51.5164315, "lng": 7.455617 },
+        "geohash": "u1jm1dm0bqyu",
+        "components": {
+          "streetNumber": "21",
+          "route": "Königswall",
+          "postalCode": "44137",
+          "city": "Dortmund",
+          "state": "NW",
+          "country": "Germany"
+        },
+        "place": {
+          "id": "ChIJ2aVjP5V2uEcRxu2iWZhbU3w",
+          "name": "Some Business Name",
+          "types": ["point_of_interest", "establishment"]
+        }
+      },
+      "createdAt": "2025-05-06T11:45:32.505Z",
+      "updatedAt": "2025-05-06T11:53:48.099Z",
+      "publishedAt": "2025-05-06T11:53:48.102Z"
+    }
+  ],
+  "meta": { "pagination": { "page": 1, "pageSize": 25, "pageCount": 1, "total": 1 } }
+}
+```
+
+Fields:
+
+- **location.address**: Places formatted address (autocomplete) or Geocoding formatted address (map click).
+- **location.components**:
+  - **streetNumber**
+  - **route** (full street name using `long_name`)
+  - **postalCode**
+  - **city**
+  - **state** (short form when provided, e.g., "NRW")
+  - **country** (full name)
+- **location.place**:
+  - **id**: Places `place_id`/`id`
+  - **name**: Business display name (if applicable)
+  - **types**: Array of place types
+
 You can configure this plugin inside your Strapi dashboard's settings tab (e.g. to enter your API key).
 
 ![Configuration](https://github.com/amicaldo/strapi-google-maps/blob/main/pictures/configuration.png?raw=true)
