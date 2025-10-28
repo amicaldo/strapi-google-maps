@@ -23,8 +23,11 @@ const isLocationEqual = (location1: Location | null, location2: Location | null)
   );
 };
 
-export default function Input({ attribute, onChange, value, name, required }: any) {
+export default function Input({ attribute, onChange, value, name, required, label, intlLabel }: any) {
   const { formatMessage } = useIntl();
+  const resolvedLabel = intlLabel
+    ? formatMessage(intlLabel)
+    : (typeof label === 'string' && label) || name || formatMessage({ id: 'input.label', defaultMessage: 'Location Picker' });
 
   const config = useConfig();
   const isInitialMount = useRef(true);
@@ -134,11 +137,7 @@ export default function Input({ attribute, onChange, value, name, required }: an
 
   return (
     <>
-      <Typography variant="pi" fontWeight="bold">
-        {formatMessage({
-          id: 'input.label',
-        })}
-      </Typography>
+      <Typography variant="pi" fontWeight="bold">{resolvedLabel}</Typography>
 
       {!config && (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
