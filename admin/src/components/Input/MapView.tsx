@@ -12,6 +12,10 @@ const fallbackCenter: Coordinates = {
 
 const libraries: ('places' | 'marker')[] = ['places', 'marker'];
 
+// ponytail: computed once at module load. The JS API loader is a singleton and refuses different options after the first load
+const language = navigator.language; // e.g. "ja-JP" or "ja"
+const region = new Intl.Locale(language).maximize().region; // "ja" -> "JP", "en" -> "US"
+
 export default function MapView({
     children,
     config,
@@ -30,6 +34,8 @@ export default function MapView({
     const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: config?.googleMapsKey || '',
         libraries,
+        language,
+        region,
         id: 'google-map-script',
     });
 
