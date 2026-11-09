@@ -6,6 +6,7 @@ import {
     Button,
     Link,
     Grid,
+    Field,
 } from '@strapi/design-system';
 import { Check } from '@strapi/icons';
 import useConfig from '../../hooks/useConfig';
@@ -80,12 +81,13 @@ export default function Settings() {
                         paddingBottom={6}
                         hasRadius
                     >
+                        <Field.Root id='apiKey' name='apiKey'>
+                        <Field.Label>API Key</Field.Label>
                         <TextInput
                             type='password'
                             id='apiKey'
                             name='apiKey'
                             placeholder='Paste your Google Maps API key here'
-                            label='API Key'
                             value={inputFields.googleMapsKey}
                             onChange={(e: any) => {
                                 setInputFields({
@@ -94,15 +96,17 @@ export default function Settings() {
                                 });
                             }}
                         />
+                        </Field.Root>
                         {/* Map ID field removed; always using DEMO_MAP_ID */}
                         <Grid.Root>
                             <Grid.Item col={2} padding={0}>
+                                <Field.Root id='defaultLatitude' name='defaultLatitude'>
+                                <Field.Label>Default Latitude</Field.Label>
                                 <TextInput
                                     type='text'
                                     id='defaultLatitude'
                                     name='defaultLatitude'
                                     placeholder='Default Latitude'
-                                    label='Default Latitude'
                                     value={inputFields.defaultLatitude}
                                     onChange={(e: any) => {
                                         setInputFields({
@@ -111,15 +115,17 @@ export default function Settings() {
                                         });
                                     }}
                                 />
+                                </Field.Root>
                             </Grid.Item>
 
                             <Grid.Item col={2} padding={2}>
+                                <Field.Root id='defaultLongitude' name='defaultLongitude'>
+                                <Field.Label>Default Longitude</Field.Label>
                                 <TextInput
                                     type='text'
                                     id='defaultLongitude'
                                     name='defaultLongitude'
                                     placeholder='Default Longitude'
-                                    label='Default Longitude'
                                     value={inputFields.defaultLongitude}
                                     onChange={(e: any) => {
                                         setInputFields({
@@ -128,6 +134,7 @@ export default function Settings() {
                                         });
                                     }}
                                 />
+                                </Field.Root>
                             </Grid.Item>
                         </Grid.Root>
 

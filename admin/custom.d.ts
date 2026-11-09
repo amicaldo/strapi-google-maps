@@ -1,3 +1,0 @@
-declare module '@strapi/design-system/*';
-declare module '@strapi/design-system';
-declare module 'latlon-geohash';

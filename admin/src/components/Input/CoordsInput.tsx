@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Grid, TextInput } from '@strapi/design-system';
+import { Field, Grid, TextInput } from '@strapi/design-system';
 import { Coordinates } from '../../../../types';
 
 function generateId(len: number) {
@@ -49,11 +49,11 @@ export default function NumberFields({
     return (
         <Grid.Root gap={3}>
             <Grid.Item col={6}>
+                <Field.Root id={latInputId} name='latitude' hint='Latitude'>
                 <TextInput
                     id={latInputId}
                     placeholder='Latitude'
                     aria-label='Latitude'
-                    hint='Latitude'
                     name='latitude'
                     onChange={(e: any) => {
                         if (!e.target.value) return;
@@ -61,14 +61,16 @@ export default function NumberFields({
                     }}
                     size='S'
                 />
+                <Field.Hint />
+                </Field.Root>
             </Grid.Item>
 
             <Grid.Item col={6}>
+                <Field.Root id={lngInputId} name='longtitude' hint='Longtitude'>
                 <TextInput
                     id={lngInputId}
                     placeholder='Longtitude'
                     aria-label='Longtitude'
-                    hint='Longtitude'
                     name='longtitude'
                     onChange={(e: any) => {
                         if (!e.target.value) return;
@@ -76,6 +78,8 @@ export default function NumberFields({
                     }}
                     size='S'
                 />
+                <Field.Hint />
+                </Field.Root>
             </Grid.Item>
         </Grid.Root>
     );
