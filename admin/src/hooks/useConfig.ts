@@ -17,14 +17,14 @@ export default function useConfig(token = '', newConfig?: UpdateConfig) {
     };
 
     useEffect(() => {
-        get(endpoint).then(onResponse).catch(onError);
+        get<Config>(endpoint).then(onResponse).catch(onError);
     }, []);
 
     useEffect(() => {
         if (newConfig) {
             setConfig(undefined);
 
-            put(endpoint, { data: newConfig }).then(onResponse).catch(onError);
+            put<Config>(endpoint, { data: newConfig }).then(onResponse).catch(onError);
         }
     }, [newConfig]);
 
