@@ -3,7 +3,7 @@ import { Config, UpdateConfig } from '../../../types';
 import { useFetchClient } from '@strapi/strapi/admin';
 import { PLUGIN_ID } from '../pluginId';
 
-const endpoint = `/api/${PLUGIN_ID}/config`;
+const endpoint = `/${PLUGIN_ID}/config`;
 
 export default function useConfig(token = '', newConfig?: UpdateConfig) {
     const [config, setConfig] = useState<Config | undefined | null>();
